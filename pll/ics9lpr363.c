@@ -124,14 +124,14 @@ int ics9lpr363_GetFSB()
 
 	int step_mult;
 
-	if (buf[0x0B] & 0xC0 == 0xC0)
-		step_mult = 3;
-	else if (buf[0x0B] & 0xC0 == 0x40)
+	if ((buf[0x0B] & 0xC0) == 0xC0)
 		step_mult = 2;
-	else
+	else if ((buf[0x0B] & 0xC0)== 0x40)
 		step_mult = 1;
+	else
+		step_mult = 0;
 
-	ret = buf[0x0C] + (0x100 * step_mult); // Frequency step
+	ret = (int)buf[0x0C] + (0x100 * step_mult); // Frequency step
 	ret = (int)((double)ret * 0.35789474 + 94.5 + 0.5); // Real freq
 	return ret;
 }
